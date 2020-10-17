@@ -12,21 +12,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function FileUploader(props) {
-    const [url, setURL] = useState("https://drive.google.com/file/d/13oudSrowxZ40jAVjaPB-XjWxn5IkkbX-/view?usp=sharing");
+    const [url, setURL] = useState("data/CustomerCenter1 1.e57");
     const classes = useStyles();
 
     const upload = () => {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ url: url })
+            body: JSON.stringify({ file_path: url })
         }
         fetch("http://localhost:5000/upload", requestOptions)
     }
 
     return (
         <div className={classes.root}>
-            <TextField id="standard-basic" value={url} label="URL" onChange={(e) => setURL(e.target.value)} />
+            <TextField id="standard-basic" value={url} label="Relative File Path" onChange={(e) => setURL(e.target.value)} />
             <Button variant="contained" color="primary" onClick={() => upload()}>Upload</Button>
         </div>
     )
