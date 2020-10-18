@@ -6,7 +6,7 @@ import FileUpload from './FileUploader';
 function App() {
   return (
     <div className="App" style={{
-      backgroundColor: '#f5f5f5',
+      padding: "50px",
     }}>
       <h1>Welcome to the Track & Trace Installation Assistance.</h1>
       <h2>Link e57 file</h2>

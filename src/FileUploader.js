@@ -35,7 +35,7 @@ export default function FileUploader(props) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ file_path: url })
         }
-        fetch("http://localhost:5000/upload", requestOptions)
+        fetch(`${process.env.REACT_APP_BACKEND_URL}/upload`, requestOptions)
             .then(resp => resp.json())
             .then(resp => {
                 setImgData(resp["img"]);
@@ -70,17 +70,17 @@ export default function FileUploader(props) {
             <div className={classes.root}>
                 <div className={classes.content}>
                     <Grid container spacing={3}>
-                        <Grid item xs={8}>
-                            <TextField id="standard-basic" value={url} label="Relative File Path" onChange={(e) => setURL(e.target.value)} />
+                        <Grid item xs={6}>
+                            <TextField id="standard-basic" value={url} label="Relative File Path" onChange={(e) => setURL(e.target.value)} style={{width: '25ch',}} />
                         </Grid>
-                        <Grid item xs={2}>
+                        <Grid item xs={3}>
                             <Button variant="contained" color="primary" onClick={() => upload()}>Upload</Button>
                         </Grid>
-                        <Grid item xs={2}>
+                        <Grid item xs={3}>
                             {jsonData && <Button variant="contained" color="primary" onClick={() => downloadJson()}>Download JSON</Button>}
                         </Grid>
                         <Grid item xs={12}>
-                            {imgData && <Carousel dotPosition={"top"} afterChange={onChange} arrows>
+                            {imgData && <Carousel afterChange={onChange} arrows>
                                 { imgData.map(imgSample => {
                                     return <div>
                                         <img src={`data:image/jpeg;base64,${imgSample}`} style={contentStyle} />
