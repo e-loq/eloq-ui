@@ -1,5 +1,9 @@
 ## eloq ui
 
+### Prerequisites
+
+Adjust the backend url in the `.env` file.
+
 ### Getting started locally
 
 * Clone the repository and navigate into the directory.
