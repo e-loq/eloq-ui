@@ -4,6 +4,9 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Container from '@material-ui/core/Container';
+import 'antd/dist/antd.css';
+import { Carousel } from 'antd';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -43,32 +46,52 @@ export default function FileUploader(props) {
 
     const downloadJson = () => {
         const element = document.createElement("a");
-        const file = new Blob([jsonData], {type: 'text/plain'});
+        const file = new Blob([jsonData], { type: 'text/plain' });
         element.href = URL.createObjectURL(file);
         element.download = "output.json";
         document.body.appendChild(element); // Required for this to work in FireFox
         element.click();
+    }
+
+    function onChange(a, b, c) {
+        console.log(a, b, c);
       }
+      
+      const contentStyle = {
+        height: '500px',
+        color: '#fff',
+        lineHeight: '500px',
+        textAlign: 'center',
+        background: '#364d79',
+      };
 
     return (
-        <div className={classes.root}>
-            <div className={classes.content}>
-                <Grid container spacing={3}>
-                    <Grid item xs={8}>
-                        <TextField id="standard-basic" value={url} label="Relative File Path" onChange={(e) => setURL(e.target.value)} />
+        <Container>
+            <div className={classes.root}>
+                <div className={classes.content}>
+                    <Grid container spacing={3}>
+                        <Grid item xs={8}>
+                            <TextField id="standard-basic" value={url} label="Relative File Path" onChange={(e) => setURL(e.target.value)} />
+                        </Grid>
+                        <Grid item xs={2}>
+                            <Button variant="contained" color="primary" onClick={() => upload()}>Upload</Button>
+                        </Grid>
+                        <Grid item xs={2}>
+                            {jsonData && <Button variant="contained" color="primary" onClick={() => downloadJson()}>Download JSON</Button>}
+                        </Grid>
+                        <Grid item xs={12}>
+                            {imgData && <Carousel dotPosition={"top"} afterChange={onChange} arrows>
+                                { imgData.map(imgSample => {
+                                    return <div>
+                                        <img src={`data:image/jpeg;base64,${imgSample}`} style={contentStyle} />
+                                    </div>
+                                })}
+                            </Carousel>}
+                        </Grid>
                     </Grid>
-                    <Grid item xs={4}>
-                        <Button variant="contained" color="primary" onClick={() => upload()}>Upload</Button>
-                    </Grid>
-                    <Grid item xs={8}>
-                        {imgData && <img src={`data:image/jpeg;base64,${imgData}`} height="500px"/>}
-                    </Grid>
-                    <Grid item xs={4}>
-                        {jsonData && <Button variant="contained" color="primary" onClick={() =>downloadJson()}>Download JSON</Button>}
-                    </Grid>
-                </Grid>
-                { loading && <CircularProgress />}
+                    {loading && <CircularProgress />}
+                </div>
             </div>
-        </div>
+        </Container>
     )
 }
